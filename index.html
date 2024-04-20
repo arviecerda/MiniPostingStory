@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Secret Message</title>
+    <link rel="stylesheet" href="./style.css" />
+    
+  </head>
+  <body>
+    <main class="container" id="app-container">
+      <section class="home-feed">
+        <div class="row-name">
+          <input
+            type="text"
+            name=""
+            id="find"
+            placeholder="Finddddd....here"
+            onkeyup="search()"
+          />
+          <input type="text" id="input-box" placeholder="Enter Your Name" />
+        </div>
+
+        <div class="row">
+          <input
+            type="text"
+            id="input-box-story"
+            placeholder="Share you story with us"
+          />
+          <button onclick="addStory()">Add</button>
+        </div>
+
+        <!-- <h2>Your name goes here</h2>
+        <p>
+          YLorem Ipsum is simply dummy text of the printing and typesetting
+          industry. Lorem Ipsum has been the industry's standard dummy text ever
+          since the 1500s, when an unknown printer took a galley of type and
+          scrambled it to make a type specimen book. It has survived not only
+          five centuries, but also the leap into electronic typesetting,
+          remaining essentially unchanged. It was popularised in the 1960s with
+          the release of Letraset sheets containing Lorem Ipsum passages, and
+          more recently with desktop publishing software like Aldus PageMaker
+          including versions of Lorem Ipsum.
+        </p> -->
+      </section>
+
+      <div id="container-story" class="product"></div>
+    </main>
+    <script>
+      const inputBoxName = document.getElementById("input-box");
+      const inputBoxStory = document.getElementById("input-box-story");
+      const listStory = document.getElementById("list-story");
+      const appContainer = document.getElementById("container-story");
+
+      function addStory() {
+        if (inputBoxName.value == "") {
+          inputBoxName.value = "Anonymous";
+        } else if (inputBoxStory.value == "") {
+          alert("Share you story or your thoughts");
+        } 
+          const createList = document.createElement("section");
+          const span = document.createElement("span");
+
+          span.innerHTML = "\u00d7";
+          createList.appendChild(span);
+
+          createList.classList.add("home-feed");
+          createList.setAttribute("id", "list-story");
+
+          const name = document.createElement("h2");
+          name.innerHTML = inputBoxName.value;
+
+          const story = document.createElement("p");
+          story.innerHTML = inputBoxStory.value;
+
+          createList.appendChild(name);
+          createList.appendChild(story);
+
+          appContainer.prepend(createList);
+        
+
+        inputBoxName.value = "";
+        inputBoxStory.value = "";
+        saveData();
+      }
+
+      function search() {
+        let filter = document.getElementById("find").value.toUpperCase();
+
+        let item = document.querySelectorAll(".home-feed");
+
+        let l = document.getElementsByTagName("h2");
+        let p = document.getElementsByTagName("p");
+
+        for (var i = 1; i <= l.length; i++) {
+          let a = item[i].getElementsByTagName("h2")[0];
+          let b = item[i].getElementsByTagName("p")[0];
+
+          let value = a.innerHTML || a.innerText || a.textContent;
+          let value2 = b.innerHTML || b.innerText || b.textContent;
+
+          if (value.toUpperCase().indexOf(filter) > -1) {
+            item[i].style.display = "";
+          } else if (value2.toUpperCase().indexOf(filter) > -1) {
+            item[i].style.display = "";
+          } else {
+            item[i].style.display = "none";
+          }
+        }
+
+        // for (var j = 1; j <= p.length; j++) {
+        //   let b = item[j].getElementsByTagName("p")[0];
+
+        //   let value2 = b.innerHTML || b.innerText || b.textContent;
+
+        //   if (value2.toUpperCase().indexOf(filter) > -1) {
+        //     item[j].style.display = "";
+        //   } else {
+        //     item[j].style.display = "none";
+        //   }
+        // }
+      }
+
+      appContainer.addEventListener("click", function (e) {
+        if (e.target.tagName === "SPAN") {
+          e.target.parentElement.remove();
+          saveData();
+        }
+      });
+
+      function saveData() {
+        localStorage.setItem("data", appContainer.innerHTML);
+      }
+      function getData() {
+        appContainer.innerHTML = localStorage.getItem("data");
+      }
+
+      getData();
+      //   localStorage.clear(); toclear the local storage
+      //   localStorage.clear();
+
+      
+
+    </script>
+    
+  </body>
+</html>
